@@ -1,29 +1,22 @@
-import { IMod, IExtensionApi, IState, IProfile, IProfileMod } from "vortex-api/lib/types/api";
-import { ComponentEx, util, MainPage, FlexLayout, selectors, Icon, log, DraggableList } from "vortex-api";
+import { IMod, IState } from "vortex-api/lib/types/api";
+import { ComponentEx, MainPage, FlexLayout, selectors, log, DraggableList } from "vortex-api";
 import { connect } from "react-redux";
 import { withTranslation } from "react-i18next";
-import { Panel, ListGroup, ListGroupItem, Button, Image, Checkbox, CheckboxProps } from "react-bootstrap";
+import { Panel, ListGroupItem } from "react-bootstrap";
 import { getModName } from "vortex-ext-common";
-import React, { Component } from 'react';
+import React from 'react';
 
 
 interface IConnectedProps {
     installed: { [modId: string]: IMod};
 }
 
-interface IPanelState {
-    
-}
-
 type IProps = IConnectedProps;
 
 class PageHeadingView extends ComponentEx<IProps, {}> {
-    // mainPage: React.Component<{}, any, any> = null;
-    // header: React.Component<{}, any, any> = null;
 
     public render() {
         const { installed } = this.props;
-        let modIds = Object.keys(installed);
         let mods = Object.keys(installed).map(i => installed[i]);
         return (
             <MainPage>
@@ -37,7 +30,6 @@ class PageHeadingView extends ComponentEx<IProps, {}> {
                                     items={mods}
                                     itemRenderer={ModItemRenderer}
                                     apply={this.applyItem.bind(this)}
-                                    className='nemesis-table'
                                 />
                                 </FlexLayout>
                             </Panel.Body>
@@ -52,9 +44,9 @@ class PageHeadingView extends ComponentEx<IProps, {}> {
     }
 }
 
-class ModItemRenderer extends ComponentEx<{item: IMod, className: string}, {}> {
+class ModItemRenderer extends ComponentEx<{item: IMod}, {}> {
     render() {
-        const { item, className } = this.props;
+        const { item } = this.props;
         return (
             <ListGroupItem key={item.id}>
                 <>{getModName(item)}</>
